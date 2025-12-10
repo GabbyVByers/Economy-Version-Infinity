@@ -39,22 +39,21 @@ int main() {
             }
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
         window.clear(sf::Color(20, 20, 40));
         circle.setRadius(circleRadius);
         sf::Vector2f position = sf::Vector2f(window.getSize().x, window.getSize().y);
         circle.setPosition(sf::Vector2f(position.x * 0.5f - circle.getRadius(), position.y * 0.5f - circle.getRadius()));
         window.draw(circle);
+        
+        ImGui::SFML::Update(window, deltaClock.restart());
         ImGui::Begin("Gabby's Window");
         ImGui::Text("Yippie! :3");
         ImGui::SliderFloat("Circle Radius", &circleRadius, 10.0f, 250.0f);
-
         static bool bigGUI = true;
         if (ImGui::Button("Toggle GUI Size")) {
             bigGUI = !bigGUI;
             ImGui::GetIO().FontGlobalScale = (bigGUI) ? 2.0f : 1.0f;
         }
-
         int windowHeight = (bigGUI) ? 500 : 250;
         if (ImPlot::BeginPlot("Test Plot", ImVec2(-1, windowHeight), ImPlotFlags_NoInputs)) {
             static std::vector<float> randomData{ 0.5f };
@@ -69,7 +68,6 @@ int main() {
             ImPlot::PlotLine("Random Data", &randomData[0], randomData.size());
             ImPlot::EndPlot();
         }
-
         ImGui::End();
         ImGui::SFML::Render(window);
         window.display();
